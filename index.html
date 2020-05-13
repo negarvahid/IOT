@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Raspberry Pi Web Interface</title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script>
+$('.button').click(function(){
+    if($(this).hasClass('active')){
+        $(this).removeClass('active')
+    } else {
+        $(this).addClass('active')
+    }
+});
+</script>
+<body>
+<div class="jumbotron text-center">
+  <h1>Raspberry Pi Control</h1> 
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <h3>LEDs</h3>
+      <div class="btn-group">
+	<button type="button" class="btn btn-default" id="LED3" onClick="jQuery(this).toggleClass('active')">LED 3</button><br><br>
+	<button type="button" class="btn btn-default" id="LED4" onClick="jQuery(this).toggleClass('active')">LED 4</button><br><br>
+	<button type="button" class="btn btn-default" id="LED5" onClick="jQuery(this).toggleClass('active')">LED 5</button><br><br>
+	<button type="button" class="btn btn-default" id="LED6" onClick="jQuery(this).toggleClass('active')">LED 6</button><br><br>
+	<button type="button" class="btn btn-default" id="LED7" onClick="jQuery(this).toggleClass('active')">LED 7</button><br><br>
+	<button type="button" class="btn btn-default" id="LED8" onClick="jQuery(this).toggleClass('active')">LED 8</button><br><br>
+	</div>
+	</div>
+	<div class="col-sm-4">
+      <h3>Relays with LEDs</h3>
+      <div class="btn-group">
+     <button type="button" class="btn btn-default" id="RELAY1" onClick="jQuery(this).toggleClass('active')">Relay 1 connected to LED 1</button><br><br>
+     <button type="button" class="btn btn-default" id="RELAY2" onClick="jQuery(this).toggleClass('active')">Relay 2 connected to LED 2</button><br><br>
+	</div>
+	</div>
+	<div class="col-sm-4">
+      <h3>Tactile Switches</h3>
+	</div>  
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+	var socket = io();
+	window.addEventListener("load", function(){
+		var lightbox3 = document.getElementById("LED3");
+		var lightbox4 = document.getElementById("LED4");
+		var lightbox5 = document.getElementById("LED5");
+		var lightbox6 = document.getElementById("LED6");
+		var lightbox7 = document.getElementById("LED7");
+		var lightbox8 = document.getElementById("LED8");
+		
+		var relaybox1 = document.getElementById("RELAY1");
+		var relaybox2 = document.getElementById("RELAY2");
+		
+		lightbox3.addEventListener("click", function() {
+			socket.emit("LED3", Number(this.click));});	
+
+		lightbox4.addEventListener("click", function() {
+			socket.emit("LED4", Number(this.click));});	
+
+		lightbox5.addEventListener("click", function() {
+			socket.emit("LED5", Number(this.click));});	
+		
+		lightbox6.addEventListener("click", function() {
+			socket.emit("LED6", Number(this.click));});
+		
+		lightbox7.addEventListener("click", function() {
+			socket.emit("LED7", Number(this.click));});	
+
+		lightbox8.addEventListener("click", function() {
+			socket.emit("LED8", Number(this.click));});	
+			
+		relaybox1.addEventListener("click", function() {
+			socket.emit("RELAY1", Number(this.click));});	
+			
+		relaybox2.addEventListener("click", function() {
+			socket.emit("RELAY2", Number(this.click));});	
+		});
+	
+	socket.on('LED3', function (data) {
+		document.getElementById("LED3").onclick = data;
+		socket.emit("LED3", data);
+	});
+	
+	socket.on('LED4', function (data) {
+		document.getElementById("LED4").onclick = data;
+		socket.emit("LED4", data);
+	});
+	
+	socket.on('LED5', function (data) {
+		document.getElementById("LED5").onclick = data;
+		socket.emit("LED5", data);
+	});
+	
+	socket.on('LED6', function (data) {
+		document.getElementById("LED6").onclick = data;
+		socket.emit("LED6", data);
+	});
+	
+	socket.on('LED7', function (data) {
+		document.getElementById("LED7").onclick = data;
+		socket.emit("LED7", data);
+	});
+	
+	socket.on('LED8', function (data) {
+		document.getElementById("LED8").onclick = data;
+		socket.emit("LED8", data);
+	});
+	
+	socket.on('RELAY1', function (data) {
+		document.getElementById("RELAY1").onclick = data;
+		socket.emit("RELAY1", data);
+	});
+	
+	socket.on('RELAY2', function (data) {
+		document.getElementById("RELAY2").onclick = data;
+		socket.emit("RELAY2", data);
+	});	
+	
+</script>
+</body>
+</head>
+</html>
